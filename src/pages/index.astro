@@ -1,4 +1,5 @@
 ---
+import { reactive } from "astro";
 import Layout from '../components/Layout.astro';
 ---
 
@@ -7,13 +8,20 @@ import Layout from '../components/Layout.astro';
     <div class="container">
       <h1>Super Simple Astro Weather App</h1>
       <div class="buttons">
-        <button onclick={() => getCurrentWeather()}>Get Current Weather</button>
-        <button onclick={() => getHistoricWeather()}>Get Historic Weather</button>
+        <button onclick={getCurrentWeather}>Get Current Weather</button>
+        <button onclick={getHistoricWeather}>Get Historic Weather</button>
       </div>
-      <div class="input-container">
-        <input type="text" placeholder="Enter City Name" bind:value={cityName} />
-        <input type="date" bind:value={startDate} />
-        <input type="date" bind:value={endDate} />
+      <div class="input-box">
+        <label for="cityName">City Name:</label>
+        <input type="text" id="cityName" bind:value={cityName} />
+      </div>
+      <div class="input-box">
+        <label for="startDate">Start Date:</label>
+        <input type="date" id="startDate" bind:value={startDate} />
+      </div>
+      <div class="input-box">
+        <label for="endDate">End Date:</label>
+        <input type="date" id="endDate" bind:value={endDate} />
       </div>
       <div class="display-box">
         <p>{weatherData}</p>
@@ -22,63 +30,37 @@ import Layout from '../components/Layout.astro';
   </main>
 </Layout>
 
-<style>
-  .container {
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 20px;
-  }
-
-  .buttons {
-    display: flex;
-    justify-content: center;
-    margin-bottom: 20px;
-  }
-
-  .buttons button {
-    margin: 0 10px;
-    padding: 10px 20px;
-  }
-
-  .input-container {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-  }
-
-  .input-container input {
-    margin-right: 10px;
-    padding: 5px 10px;
-  }
-
-  .display-box {
-    border: 1px solid #ccc;
-    padding: 10px;
-  }
-</style>
-
 <script>
-  let cityName = '';
-  let startDate = '';
-  let endDate = '';
-  let weatherData = '';
+  const { reactive, onMount } = Astro;
+  const state = reactive({
+    cityName: "",
+    startDate: "",
+    endDate: "",
+    weatherData: "",
+  });
 
   async function getCurrentWeather() {
+    const { cityName } = state;
     try {
-      const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid={API key}`);
+      const response = await fetch(
+        `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid={API key}`
+      );
       const data = await response.json();
-      weatherData = JSON.stringify(data);
+      state.weatherData = JSON.stringify(data);
     } catch (error) {
-      weatherData = `Error: ${error.message}`;
+      state.weatherData = `Error: ${error.message}`;
     }
   }
 
   async function getHistoricWeather() {
-    try {
-      // Make API call to your Java/Spring backend using the cityName, startDate, and endDate variables
-      // Update the weatherData variable with the response from the backend API
-    } catch (error) {
-      weatherData = `Error: ${error.message}`;
-    }
+    const { cityName, startDate, endDate } = state;
+    // Make API call to Java/Spring backend using cityName, startDate, and endDate
+    // Update state.weatherData with the response from the backend API
+    // Example: state.weatherData = await fetchWeatherData(cityName, startDate, endDate);
   }
 </script>
+
+<style>
+  /* Add your custom styles here */
+  /* ... */
+</style>
