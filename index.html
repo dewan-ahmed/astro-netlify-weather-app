@@ -5,14 +5,11 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Super Simple Astro Weather App</title>
-  <style>
-    /* Add your custom styles here */
-    /* ... */
-  </style>
+  <link rel="stylesheet" href="styles.css">
 </head>
 
 <body>
-  <h1>Super Simple Astro Weather App</h1>
+  <h1>Super Simple Weather App</h1>
   <div class="container">
     <div class="buttons">
       <button onclick="getCurrentWeather()">Get Current Weather</button>
@@ -36,68 +33,7 @@
   </div>
 
   <script>
-    function getCurrentWeather() {
-      const cityName = document.getElementById("cityName").value;
-      const apiKey = "{API key}";
-
-      if (!cityName) {
-        displayError("Please enter a city name.");
-        return;
-      }
-
-      fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid=${apiKey}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.cod !== 200) {
-            displayError(`Error: ${data.message}`);
-          } else {
-            displayWeatherData(JSON.stringify(data));
-          }
-        })
-        .catch(error => {
-          displayError(`Error: ${error.message}`);
-        });
-    }
-
-    function getHistoricWeather() {
-      const cityName = document.getElementById("cityName").value;
-      const startDate = document.getElementById("startDate").value;
-      const endDate = document.getElementById("endDate").value;
-      const apiKey = "{API key}";
-
-      if (!cityName) {
-        displayError("Please enter a city name.");
-        return;
-      }
-
-      if (!startDate || !endDate) {
-        displayError("Please enter a valid date range.");
-        return;
-      }
-
-      fetch(`https://api.openweathermap.org/data/2.5/onecall/timemachine?lat={lat}&lon={lon}&dt={date}&appid=${apiKey}`)
-        .then(response => response.json())
-        .then(data => {
-          if (data.cod !== 200) {
-            displayError(`Error: ${data.message}`);
-          } else {
-            displayWeatherData(JSON.stringify(data));
-          }
-        })
-        .catch(error => {
-          displayError(`Error: ${error.message}`);
-        });
-    }
-
-    function displayWeatherData(weatherData) {
-      const displayBox = document.getElementById("weatherData");
-      displayBox.textContent = weatherData;
-    }
-
-    function displayError(errorMessage) {
-      const displayBox = document.getElementById("weatherData");
-      displayBox.textContent = errorMessage;
-    }
+    // JavaScript code goes here
   </script>
 </body>
 
