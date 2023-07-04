@@ -1,5 +1,5 @@
 ---
-import { reactive } from "astro";
+import { reactive, onMount } from "astro";
 import Layout from '../components/Layout.astro';
 ---
 
@@ -13,18 +13,18 @@ import Layout from '../components/Layout.astro';
       </div>
       <div class="input-box">
         <label for="cityName">City Name:</label>
-        <input type="text" id="cityName" bind:value={cityName} />
+        <input type="text" id="cityName" bind:value={state.cityName} />
       </div>
       <div class="input-box">
         <label for="startDate">Start Date:</label>
-        <input type="date" id="startDate" bind:value={startDate} />
+        <input type="date" id="startDate" bind:value={state.startDate} />
       </div>
       <div class="input-box">
         <label for="endDate">End Date:</label>
-        <input type="date" id="endDate" bind:value={endDate} />
+        <input type="date" id="endDate" bind:value={state.endDate} />
       </div>
       <div class="display-box">
-        <p>{weatherData}</p>
+        <p>{state.weatherData}</p>
       </div>
     </div>
   </main>
@@ -40,10 +40,9 @@ import Layout from '../components/Layout.astro';
   });
 
   async function getCurrentWeather() {
-    const { cityName } = state;
     try {
       const response = await fetch(
-        `https://api.openweathermap.org/data/2.5/weather?q=${cityName}&appid={API key}`
+        `https://api.openweathermap.org/data/2.5/weather?q=${state.cityName}&appid={API key}`
       );
       const data = await response.json();
       state.weatherData = JSON.stringify(data);
@@ -53,11 +52,12 @@ import Layout from '../components/Layout.astro';
   }
 
   async function getHistoricWeather() {
-    const { cityName, startDate, endDate } = state;
-    // Make API call to Java/Spring backend using cityName, startDate, and endDate
-    // Update state.weatherData with the response from the backend API
-    // Example: state.weatherData = await fetchWeatherData(cityName, startDate, endDate);
+    // Implement the logic to fetch historic weather data
   }
+
+  onMount(() => {
+    // Code to run when the component is mounted
+  });
 </script>
 
 <style>
